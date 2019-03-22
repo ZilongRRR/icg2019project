@@ -27,7 +27,8 @@ public class CarGame : MonoBehaviour {
         nowSelect = cars[index];
         images = canvas.GetComponentsInChildren<Image>();
         Debug.Log(images.Length.ToString());
-	}
+        images[++gradeNum].color = Color.white;
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {    
@@ -133,8 +134,11 @@ public class CarGame : MonoBehaviour {
             if (nowSelect.maxVelocity >= 60f)
                 nowSelect.maxVelocity = 60f;
             Debug.Log(nowSelect.maxVelocity.ToString());
-            if(gradeNum<images.Length)
+            if (gradeNum < images.Length - 1)
+            {
+                images[gradeNum].color = Color.white;
                 images[++gradeNum].color = Color.red;
+            }
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -143,7 +147,10 @@ public class CarGame : MonoBehaviour {
                 nowSelect.maxVelocity = 0f;
             Debug.Log(nowSelect.maxVelocity.ToString());
             if (gradeNum > 0)
+            {
+                images[gradeNum].color = Color.white;
                 images[--gradeNum].color = Color.red;
+            }
         }
 
         nowSelect.m_DeltaMovement = nowSelect.Velocity * Time.deltaTime;
