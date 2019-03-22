@@ -119,6 +119,7 @@ public class CarEntity : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
+            audioData[0].Stop();
             m_Velocity = Mathf.Max(0, m_Velocity - Time.deltaTime * acceleration);
             var rot = pin.transform.localRotation.eulerAngles;
             rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
@@ -126,6 +127,7 @@ public class CarEntity : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.R))
         {
+            audioData[0].Stop();
             m_Velocity = Mathf.Max(-maxVelocity, m_Velocity - Time.deltaTime * acceleration);
             imagesGrade[gradeNum].color = Color.white;
             gradeNum = 0;
