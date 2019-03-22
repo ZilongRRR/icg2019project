@@ -33,9 +33,8 @@ public class CarEntity : MonoBehaviour {
     public float Velocity { get { return m_Velocity; } set { m_Velocity = value; } }
     public float WheelFrontAngle { get { return m_WheelFrontAngle; } set { m_WheelFrontAngle = value; } }
     public float ANGLE_LIMIT { get { return WHEEL_ANGLE_LIMIT; } }
-    public float acceleration = 3f;
-    public float deceleration = 10f;
-    public float maxVelocity = 10f;
+    public float acceleration = 1f;
+    public float maxVelocity = 4f;
 
     public float m_DeltaMovement;
     float carLength = 1.6f;
@@ -106,7 +105,10 @@ public class CarEntity : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            audioData[0].volume = maxVelocity / 24f * 1;
             audioData[0].Play();
+        }
         if (Input.GetKey(KeyCode.UpArrow))
         {
             m_Velocity = Mathf.Min(maxVelocity, m_Velocity + Time.deltaTime * acceleration);
@@ -120,10 +122,15 @@ public class CarEntity : MonoBehaviour {
         if (Input.GetKey(KeyCode.DownArrow))
         {
             audioData[0].Stop();
-            m_Velocity = Mathf.Max(0, m_Velocity - Time.deltaTime * acceleration);
-            var rot = pin.transform.localRotation.eulerAngles;
-            rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
-            pin.transform.localRotation = Quaternion.Euler(rot);
+            if (m_Velocity > 0)
+            {
+                m_Velocity = Mathf.Max(0, m_Velocity - Time.deltaTime * acceleration);
+                var rot = pin.transform.localRotation.eulerAngles;
+                rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
+                pin.transform.localRotation = Quaternion.Euler(rot);
+            }
+            else
+                m_Velocity = Mathf.Min(0, m_Velocity + Time.deltaTime * acceleration);
         }
         if (Input.GetKey(KeyCode.R))
         {
@@ -232,25 +239,27 @@ public class CarEntity : MonoBehaviour {
         //打檔
         if (Input.GetKeyDown(KeyCode.W))
         {
-            audioData[0].Play();
             Debug.Log(maxVelocity.ToString());
             if (gradeNum < imagesGrade.Length - 1)
             {
                 imagesGrade[gradeNum].color = Color.white;
                 imagesGrade[++gradeNum].color = Color.red;
-                maxVelocity = gradeNum * 10f;
+                maxVelocity = gradeNum * 4f;
             }
+            audioData[0].volume = maxVelocity / 24f * 1;
+            audioData[0].Play();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            audioData[0].Play();
             Debug.Log(maxVelocity.ToString());
             if (gradeNum > 1)
             {
                 imagesGrade[gradeNum].color = Color.white;
                 imagesGrade[--gradeNum].color = Color.red;
-                maxVelocity = gradeNum * 10f;
+                maxVelocity = gradeNum * 4f;
             }
+            audioData[0].volume = maxVelocity / 24f * 1;
+            audioData[0].Play();
         }
 
         m_DeltaMovement = m_Velocity * Time.deltaTime;
