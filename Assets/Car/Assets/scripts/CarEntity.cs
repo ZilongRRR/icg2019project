@@ -179,7 +179,7 @@ public class CarEntity : MonoBehaviour {
         }
 
         //方向燈
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             turningLeft = true;
         }
@@ -203,7 +203,7 @@ public class CarEntity : MonoBehaviour {
             turningLeft = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             turningRight = true;
         }
@@ -228,7 +228,7 @@ public class CarEntity : MonoBehaviour {
         }
 
         //打檔
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             audioData[0].Play();
             Debug.Log(maxVelocity.ToString());
@@ -239,7 +239,7 @@ public class CarEntity : MonoBehaviour {
                 maxVelocity = gradeNum * 10f;
             }
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             audioData[0].Play();
             Debug.Log(maxVelocity.ToString());
