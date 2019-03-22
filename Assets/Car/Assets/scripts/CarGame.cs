@@ -31,6 +31,7 @@ public class CarGame : MonoBehaviour {
     }
 	
 	// Update is called once per frame
+    /*
 	void FixedUpdate () {    
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -159,5 +160,5 @@ public class CarGame : MonoBehaviour {
         nowSelect.transform.Translate(Vector3.up * nowSelect.m_DeltaMovement);
 
         nowSelect.m_Camera.targetObject = nowSelect;
-    }
+    }*/
 }

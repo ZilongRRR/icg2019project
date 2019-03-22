@@ -26,17 +26,15 @@ public class CarEntity : MonoBehaviour {
     float pinStartAngle;
 
     float m_WheelFrontAngle = 0;
-    const float WHEEL_ANGLE_LIMIT = 40f;
-    public float turnAngularVelocity = 20f;
+    float WHEEL_ANGLE_LIMIT = 40f;
+    private float turnAngularVelocity = 20f;
 
     float m_Velocity;
-    public float Velocity { get { return m_Velocity; } set { m_Velocity = value; } }
-    public float WheelFrontAngle { get { return m_WheelFrontAngle; } set { m_WheelFrontAngle = value; } }
-    public float ANGLE_LIMIT { get { return WHEEL_ANGLE_LIMIT; } }
-    public float acceleration = 1f;
-    public float maxVelocity = 4f;
+    public float Velocity { get { return m_Velocity; } }
+    private float acceleration = 1f;
+    private float maxVelocity = 4f;
 
-    public float m_DeltaMovement;
+    private float m_DeltaMovement;
     float carLength = 1.6f;
     public float getCarLength { get { return carLength; } }
 
@@ -113,7 +111,7 @@ public class CarEntity : MonoBehaviour {
         {
             m_Velocity = Mathf.Min(maxVelocity, m_Velocity + Time.deltaTime * acceleration);
             var rot = pin.transform.localRotation.eulerAngles;
-            rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
+            rot.Set(0f, 0f, pinStartAngle - 6.6f * m_Velocity);
             pin.transform.localRotation = Quaternion.Euler(rot);
         }
         if (Input.GetKeyUp(KeyCode.UpArrow))
@@ -126,7 +124,7 @@ public class CarEntity : MonoBehaviour {
             {
                 m_Velocity = Mathf.Max(0, m_Velocity - Time.deltaTime * acceleration);
                 var rot = pin.transform.localRotation.eulerAngles;
-                rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
+                rot.Set(0f, 0f, pinStartAngle - 6.6f * m_Velocity);
                 pin.transform.localRotation = Quaternion.Euler(rot);
             }
             else
@@ -143,7 +141,7 @@ public class CarEntity : MonoBehaviour {
             if (m_Velocity > 0)
             {
                 var rot = pin.transform.localRotation.eulerAngles;
-                rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
+                rot.Set(0f, 0f, pinStartAngle - 6.6f * m_Velocity);
                 pin.transform.localRotation = Quaternion.Euler(rot);
             }
         }
@@ -155,7 +153,7 @@ public class CarEntity : MonoBehaviour {
                 imagesGrade[gradeNum].color = Color.red;
 
                 var rot = pin.transform.localRotation.eulerAngles;
-                rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
+                rot.Set(0f, 0f, pinStartAngle - 6.6f * m_Velocity);
                 pin.transform.localRotation = Quaternion.Euler(rot);
             }
             else
@@ -173,7 +171,7 @@ public class CarEntity : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            WheelFrontAngle = 0;
+            m_WheelFrontAngle = 0;
             UpdateWheels();
         }
         if (Input.GetKey(KeyCode.RightArrow))
@@ -183,7 +181,7 @@ public class CarEntity : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            WheelFrontAngle = 0;
+            m_WheelFrontAngle = 0;
             UpdateWheels();
         }
 
@@ -206,7 +204,7 @@ public class CarEntity : MonoBehaviour {
             }
         }
 
-        if (WheelFrontAngle >= 20f)
+        if (WHEEL_ANGLE_LIMIT >= 20f)
         {
             leftLight.color = Color.white;
             turningLeft = false;
@@ -230,7 +228,7 @@ public class CarEntity : MonoBehaviour {
             }
         }
 
-        if (WheelFrontAngle <= -20f)
+        if (WHEEL_ANGLE_LIMIT <= -20f)
         {
             rightLight.color = Color.white;
             turningRight = false;

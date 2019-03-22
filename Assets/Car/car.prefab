@@ -33,7 +33,7 @@ RectTransform:
   - {fileID: 1295881633}
   - {fileID: 548502424}
   m_Father: {fileID: 3327117513589377801}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -199,11 +199,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569745847}
   m_LocalRotation: {x: -0.038802065, y: 0.010069891, z: -0.024326624, w: 0.99890006}
-  m_LocalPosition: {x: 0.343, y: 1.021, z: 0}
-  m_LocalScale: {x: 1.7815678, y: 1.8420848, z: 1}
+  m_LocalPosition: {x: 0.34299994, y: 1.021, z: 0}
+  m_LocalScale: {x: 1.7815676, y: 1.8420848, z: 1}
   m_Children: []
-  m_Father: {fileID: 3327117513589377801}
-  m_RootOrder: 3
+  m_Father: {fileID: 3327117513022692576}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -4.418, y: 1.2650001, z: -2.8390002}
 --- !u!212 &569745849
 SpriteRenderer:
@@ -285,7 +285,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3327117513589377801}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1092565289
 Camera:
@@ -457,11 +457,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1817033936}
   m_LocalRotation: {x: -0, y: -0, z: 0.035864472, w: 0.9993567}
-  m_LocalPosition: {x: -0.3683, y: 0.9575, z: 0}
+  m_LocalPosition: {x: -0.36829996, y: 0.9575, z: 0}
   m_LocalScale: {x: 1.7175277, y: 1.8433881, z: 1}
   m_Children: []
-  m_Father: {fileID: 3327117513589377801}
-  m_RootOrder: 2
+  m_Father: {fileID: 3327117513022692576}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 4.111}
 --- !u!212 &1817033937
 SpriteRenderer:
@@ -831,6 +831,8 @@ Transform:
   - {fileID: 3327117514439178070}
   - {fileID: 3327117513907238907}
   - {fileID: 3327117514182719983}
+  - {fileID: 1817033938}
+  - {fileID: 569745848}
   m_Father: {fileID: 3327117513589377801}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1280,8 +1282,6 @@ Transform:
   m_Children:
   - {fileID: 3327117513022692576}
   - {fileID: 3327117512915127593}
-  - {fileID: 1817033938}
-  - {fileID: 569745848}
   - {fileID: 190437564}
   - {fileID: 1092565290}
   m_Father: {fileID: 0}
@@ -1316,11 +1316,6 @@ MonoBehaviour:
   m_Camera: {fileID: 1092565291}
   grade: {fileID: 3327117512915127592}
   tachometer: {fileID: 190437567}
-  turnAngularVelocity: 20
-  acceleration: 3
-  deceleration: 10
-  maxVelocity: 10
-  m_DeltaMovement: 0
 --- !u!50 &3327117513589377799
 Rigidbody2D:
   serializedVersion: 4
