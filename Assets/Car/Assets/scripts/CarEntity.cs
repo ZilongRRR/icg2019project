@@ -12,7 +12,7 @@ public class CarEntity : MonoBehaviour {
     public SpriteRenderer leftLight;
     public SpriteRenderer rightLight;
     public TracingCameraEntity m_Camera;
-    public AudioSource audioData;
+    AudioSource[] audioData;
 
     private float flash;
     bool turningLeft = false;
@@ -99,10 +99,14 @@ public class CarEntity : MonoBehaviour {
         transTachometer = tachometer.GetComponentsInChildren<RectTransform>();
         pin = transTachometer[2];
         pinStartAngle = 150;
+
+        audioData = GetComponents<AudioSource>();
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            audioData[0].Play();
         if (Input.GetKey(KeyCode.UpArrow))
         {
             m_Velocity = Mathf.Min(maxVelocity, m_Velocity + Time.deltaTime * acceleration);
@@ -110,11 +114,14 @@ public class CarEntity : MonoBehaviour {
             rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
             pin.transform.localRotation = Quaternion.Euler(rot);
         }
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+            audioData[0].Stop();
+
         if (Input.GetKey(KeyCode.DownArrow))
         {
             m_Velocity = Mathf.Max(0, m_Velocity - Time.deltaTime * acceleration);
             var rot = pin.transform.localRotation.eulerAngles;
-            rot.Set(0f, 0f, pinStartAngle + 2.2f * m_Velocity);
+            rot.Set(0f, 0f, pinStartAngle - 2.2f * m_Velocity);
             pin.transform.localRotation = Quaternion.Euler(rot);
         }
         if (Input.GetKey(KeyCode.R))
@@ -223,7 +230,7 @@ public class CarEntity : MonoBehaviour {
         //打檔
         if (Input.GetKeyDown(KeyCode.D))
         {
-            audioData.Play();
+            audioData[0].Play();
             Debug.Log(maxVelocity.ToString());
             if (gradeNum < imagesGrade.Length - 1)
             {
@@ -234,7 +241,7 @@ public class CarEntity : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            audioData.Play();
+            audioData[0].Play();
             Debug.Log(maxVelocity.ToString());
             if (gradeNum > 1)
             {
