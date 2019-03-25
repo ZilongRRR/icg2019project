@@ -31,7 +31,7 @@ public class CarEntity : MonoBehaviour {
 
     float m_Velocity;
     public float Velocity { get { return m_Velocity; } }
-    public float acceleration = 1f;
+    public float acceleration = 2f;
     public float maxVelocity = 4f;
     public float mfs = 2f;
 
@@ -121,8 +121,14 @@ public class CarEntity : MonoBehaviour {
             } else
                 m_Velocity = Mathf.Min (0, m_Velocity + Time.deltaTime * acceleration);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            audioData[0].Stop();
+            audioData[1].Play();
+        }
+
         if (Input.GetKey (KeyCode.R)) {
-            audioData[0].Stop ();
             m_Velocity = Mathf.Max (-maxVelocity, m_Velocity - Time.deltaTime * acceleration / 1.5f);
             imagesGrade[gradeNum].color = Color.white;
             gradeNum = 0;
@@ -147,6 +153,8 @@ public class CarEntity : MonoBehaviour {
                 imagesGrade[gradeNum].color = Color.red;
             }
             imagesGrade[0].color = Color.white;
+
+            audioData[1].Stop();
         }
 
         if (Input.GetKey (KeyCode.LeftArrow)) {
@@ -180,7 +188,7 @@ public class CarEntity : MonoBehaviour {
             }
         }
 
-        if (WHEEL_ANGLE_LIMIT >= 20f) {
+        if (m_WheelFrontAngle >= 40f) {
             leftLight.color = Color.white;
             turningLeft = false;
         }
@@ -198,7 +206,7 @@ public class CarEntity : MonoBehaviour {
             }
         }
 
-        if (WHEEL_ANGLE_LIMIT <= -20f) {
+        if (m_WheelFrontAngle <= -40f) {
             rightLight.color = Color.white;
             turningRight = false;
         }
