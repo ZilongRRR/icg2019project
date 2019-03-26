@@ -176,7 +176,18 @@ public class CarEntity : MonoBehaviour {
 
         //方向燈
         if (Input.GetKeyDown (KeyCode.A)) {
-            turningLeft = true;
+            if (turningLeft == false)
+            {
+                turningLeft = true;
+                audioData[2].Play();
+            }
+            else
+            {
+                leftLight.color = Color.white;
+                turningLeft = false;
+                audioData[2].Stop();
+                audioData[3].Play();
+            }
         }
 
         if (turningLeft) {
@@ -186,15 +197,29 @@ public class CarEntity : MonoBehaviour {
             } else {
                 leftLight.color = Color.white;
             }
-        }
 
-        if (m_WheelFrontAngle >= 40f) {
-            leftLight.color = Color.white;
-            turningLeft = false;
+            if (m_WheelFrontAngle >= 40f)
+            {
+                leftLight.color = Color.white;
+                turningLeft = false;
+                audioData[2].Stop();
+                audioData[3].Play();
+            }
         }
 
         if (Input.GetKeyDown (KeyCode.D)) {
-            turningRight = true;
+            if (turningRight == false)
+            {
+                turningRight = true;
+                audioData[2].Play();
+            }
+            else
+            {
+                rightLight.color = Color.white;
+                turningRight = false;
+                audioData[2].Stop();
+                audioData[3].Play();
+            }
         }
 
         if (turningRight) {
@@ -204,11 +229,14 @@ public class CarEntity : MonoBehaviour {
             } else {
                 rightLight.color = Color.white;
             }
-        }
 
-        if (m_WheelFrontAngle <= -40f) {
-            rightLight.color = Color.white;
-            turningRight = false;
+            if (m_WheelFrontAngle <= -40f)
+            {
+                rightLight.color = Color.white;
+                turningRight = false;
+                audioData[2].Stop();
+                audioData[3].Play();
+            }
         }
 
         //打檔
