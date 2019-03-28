@@ -17,6 +17,7 @@ public class CarEntity : MonoBehaviour {
     private float flash;
     bool turningLeft = false;
     bool turningRight = false;
+    bool hold = false;
     public Canvas grade;
     private Image[] imagesGrade;
     int gradeNum = 0;
@@ -157,21 +158,39 @@ public class CarEntity : MonoBehaviour {
             audioData[1].Stop();
         }
 
-        if (Input.GetKey (KeyCode.LeftArrow)) {
-            m_WheelFrontAngle = Mathf.Clamp (m_WheelFrontAngle + Time.deltaTime * turnAngularVelocity, -WHEEL_ANGLE_LIMIT, WHEEL_ANGLE_LIMIT);
-            UpdateWheels ();
+        if (!hold)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                m_WheelFrontAngle = Mathf.Clamp(m_WheelFrontAngle + Time.deltaTime * turnAngularVelocity, -WHEEL_ANGLE_LIMIT, WHEEL_ANGLE_LIMIT);
+                UpdateWheels();
+            }
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                m_WheelFrontAngle = 0;
+                UpdateWheels();
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                m_WheelFrontAngle = Mathf.Clamp(m_WheelFrontAngle - Time.deltaTime * turnAngularVelocity, -WHEEL_ANGLE_LIMIT, WHEEL_ANGLE_LIMIT);
+                UpdateWheels();
+            }
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                m_WheelFrontAngle = 0;
+                UpdateWheels();
+            }
         }
-        if (Input.GetKeyUp (KeyCode.LeftArrow)) {
+        
+        if (Input.GetKey(KeyCode.Space))
+        {
+            hold = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
             m_WheelFrontAngle = 0;
-            UpdateWheels ();
-        }
-        if (Input.GetKey (KeyCode.RightArrow)) {
-            m_WheelFrontAngle = Mathf.Clamp (m_WheelFrontAngle - Time.deltaTime * turnAngularVelocity, -WHEEL_ANGLE_LIMIT, WHEEL_ANGLE_LIMIT);
-            UpdateWheels ();
-        }
-        if (Input.GetKeyUp (KeyCode.RightArrow)) {
-            m_WheelFrontAngle = 0;
-            UpdateWheels ();
+            UpdateWheels();
+            hold = false;
         }
 
         //方向燈

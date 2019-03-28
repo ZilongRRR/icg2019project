@@ -46,7 +46,7 @@ namespace ZTools {
             audioSource.Play ();
         }
         void Start () {
-            AddPeople (10);
+            //AddPeople (10);
             audioSource = GetComponent<AudioSource> ();
         }
         void Update () {
