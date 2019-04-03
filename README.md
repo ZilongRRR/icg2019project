@@ -1,29 +1,153 @@
-# Team Member
-趙君傑、劉鎧禎、許舜翔
+# ICG2019 ProjectA
+## Team member
+r07521606 劉鎧禎  
+r06521605 許舜翔  
+趙君傑
 
-# Introduction of Project
-In this project, you will develop a virtual parking garage and a car motion simulator. 
-The virtual parking garage is created by using the provided images. Your car will drive in the virtual parking garage and has to avoid obstacles to complete parking.  
-# Grading
-+ Car Model: You have to visualize the car and wheels respective to the right position and rotation. (10%)
-+ Car Motion Behavior: You have to simulate the real motion behaviors (15%)
-+ Keyboard Control: User are allowed to speed up, slow down, reverse, and turn left or right. (15%)
-+ Collision Detection: You need to include the functions for collision detection and the visual reaction when the car is collided with obstacles or other cars. (10%)
-+ Parking Simulation: You have to provide two different parking space, parallel parking and reverse parking. And you need to detect whether the car is completely parking inside the parking space. (25%)
-+ Written Report: In the written report, you have to briefly explain the major functions you have developed and list the snapshots of them (at least one for each function). If you would like to obtain extra credits, please also list the additional works you have done. Finally, make a list to explain the work division of your team. (25%)
-+ Extra Credits: The following works might obtain up to 10% extra credits. 
-Fancy scenes rendering – reactions, color changing, or other special effect to present the situations during the simulation. 
-Parking assistant – assistants like reversing radar, reversing camera, parking area check, or even auto parking system.   
-# Our work
-## Car 
-### Car model
-### Car simulation
-## Map
-### Task1: Reverse Into Garage
-### Task2: Street Parking
-### Task3: S-shaped road
-### Task4: Read the signals
-## Others
-### Auto Parking System
+### Car
+Additional works:
+* the light and the sound of direction indicators
+KeyCode: A, D
+Description:
+When the wheel angle reaches 40f, the light will be automatically turned off.
+```
+if (m_WheelFrontAngle >= 40f)
+{
+    leftLight.color = Color.white;
+    turningLeft = false;
+    audioData[2].Stop();
+    audioData[3].Play();
+}
+```
+
+* manual transmission and engine sound
+KeyCode: W, S
+Description:
+Keycode W means to upshift, and Keycode S means to downshift.
+There are six grades for this car.  Every grade represents different maximum velocity and different volume of engine sound which increases/decreases 4f as you upshift/downshift.
+```
+if (Input.GetKeyDown (KeyCode.W)) 
+{
+    Debug.Log (maxVelocity.ToString ());
+    if (gradeNum < imagesGrade.Length - 1) {
+        imagesGrade[gradeNum].color = Color.white;
+        imagesGrade[++gradeNum].color = Color.red;
+        maxVelocity = gradeNum * 4f;
+    }
+    audioData[0].volume = maxVelocity / 24f * 1;
+    audioData[0].Play ();
+}
+```
+![](https://i.imgur.com/qrmaMiT.png)
+
+* tachometer
+The rect transform of the pin will change depending the velocity. 
+```
+RectTransform pin;
+
+if (Input.GetKey (KeyCode.UpArrow)) 
+{
+    m_Velocity = Mathf.Min (maxVelocity, m_Velocity + Time.deltaTime * acceleration);
+    var rot = pin.transform.localRotation.eulerAngles;
+    rot.Set (0f, 0f, pinStartAngle - 6.6f * m_Velocity);
+    pin.transform.localRotation = Quaternion.Euler (rot);
+}
+```
+![](https://i.imgur.com/767IX5i.png)
+
+* wheel angle holding key
+KeyCode: space
+Description:
+When the keycode space is hold, the wheel angle will be unchangeable. 
+
+### Task
+![](https://i.imgur.com/mvaAdvm.jpg)
+
+According to the driving test in Taiwan, we design four tasks in the scene which are back up, street parking, s-shape and traffic light.  Each of them consists of two trigger components and separately detect if the car is on line and check if he/she completed the task.  We believe that the whole parts of car must cross the trigger line to finish the task, so we just simply count the total numbers passing the line and check if he/she completed depending on the maximum count.  Once the car is on line, it will trigger the alarm and deduct points.  Besides, it will also make game fail if any task is not achieved.
+```
+// our car consists of 7 gameobjects
+if (count == 0 && triggerRecord.Count == 7 && !isCheck) {
+            // set true to avoid duplicate work
+            isCheck = true;
+            // change the color of the check sign
+            checkMark.color = Color.green;
+        }
+```
+
+* #### Back Up
+![](https://i.imgur.com/woxMgd4.png)
+
+![](https://i.imgur.com/g0Uqj9t.png)
+* #### Street Parking
+![](https://i.imgur.com/PqpDYSx.png)
+
+![](https://i.imgur.com/BEghoZ2.png)
+* #### S-shape
+![](https://i.imgur.com/N1hLqFq.png)
+
+![](https://i.imgur.com/gy1XO3l.png)
+
+Due to the complex structure of it, we setup multiple check points during the task.
+* #### Traffic light
+![](https://i.imgur.com/uSOmCW7.gif)
+
+We use text mesh pro to display count down and cotrol the text with
+`InvokeRepeating("lightCounting", 1, 1);`
+
+```
+void lightCounting()
+{
+    switch (m_status)
+    {
+        case 0:
+            // Debug.Log("green " + m_greenTime);
+            if (m_greenTime == greenTime) { updateColor(); }
+            greenNum.text = "" + m_greenTime;
+            m_greenTime -= 1;
+            if (m_greenTime == -1)
+            {
+                m_status = (m_status + 1) % 3;
+                m_greenTime = greenTime;
+                greenNum.text = "";
+                m_yellowTime = yellowTime;
+            }
+            break;
+        case 1:
+            // Debug.Log("yellow " + m_yellowTime);
+            if (m_yellowTime == yellowTime) { updateColor(); }
+            m_yellowTime -= 1;
+            if (m_yellowTime == -1)
+            {
+                m_status = (m_status + 1) % 3;
+                m_yellowTime = yellowTime;
+                m_redTime = redTime;
+            }
+            break;
+        case 2:
+            // Debug.Log("red " + m_redTime);
+            if (m_redTime == redTime) { updateColor(); }
+            redNum.text = "" + m_redTime;
+            m_redTime -= 1;
+            if (m_redTime == -1)
+            {
+                m_status = (m_status + 1) % 3;
+                m_redTime = redTime;
+                redNum.text = "";
+                m_greenTime = greenTime;
+            }
+            break;
+    }
+}
+```
 
 
+### Map
+
+
+### UI
+
+
+### Work Division
+The behavior of the car entity: 劉鎧禎  
+The Task and the collision check: 許舜翔  
+The Map and the game UI: 趙君傑
