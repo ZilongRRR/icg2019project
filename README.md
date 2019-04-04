@@ -29,7 +29,7 @@ if (m_WheelFrontAngle >= 40f)
   KeyCode: W, S
   Description:
   Keycode W means to upshift, and Keycode S means to downshift.
-  There are six grades for this car. Every grade represents different maximum velocity and different volume of engine sound which increases/decreases 4f as you upshift/downshift.
+  There are six grades for this car. Every grade represents different maximum volume of engine sound and different maximum velocity which increases/decreases 4f as you upshift/downshift.
 
 ```
 if (Input.GetKeyDown (KeyCode.W))
