@@ -95,7 +95,6 @@ public class FlyingHook : MonoBehaviour
         }
         else
         {
-
             GameObject.Destroy(m_JointForObject);
             m_JointForObject = null;
         }
@@ -134,7 +133,6 @@ public class FlyingHook : MonoBehaviour
         }
     }
     LineRenderer m_Cable;
-    int[] indexes = new int[4] { 0, 0, 0, 0 };
     void UpdateCable()
     {
         LineRenderer[] lineArray = this.GetComponentsInChildren<LineRenderer>();
@@ -144,40 +142,31 @@ public class FlyingHook : MonoBehaviour
             {
                 foreach (LineRenderer lr in lineArray)
                     lr.enabled = true;
-                Vector3[] vertices = m_JointForObject.connectedBody.GetComponentInParent<MeshFilter>().mesh.vertices;
-                if (checkfirstconnectmoment == false)
+                List<Vector3> vertices = new List<Vector3>();
+                foreach(Transform tr in m_JointForObject.connectedBody.GetComponentsInChildren<Transform>())
                 {
-                    float totalZ = 0f;
-                    foreach (Vector3 vec in vertices)
-                        totalZ += vec.z;
-                    float ave = totalZ / 8;
-
-                    checkfirstconnectmoment = true;
-                    int index = 0;
-                    for (int i = 0; i < 8; i++)
-                    {
-                        Debug.Log(vertices[i]);
-                        if (vertices[i].z > ave)
-                        {
-                            indexes[index] = i;
-                            index++;
-                        }
-                    }
+                    vertices.Add(tr.position);
+                    Debug.Log(tr.position);
                 }
 
                 for (int i = 0; i < lineArray.Length; i++)
                 {
                     lineArray[i].SetPosition(0, this.transform.position);
-                    lineArray[i].SetPosition(1, m_JointForObject.connectedBody.transform.position + vertices[indexes[i]]);
+                    lineArray[i].SetPosition(1, vertices[i + 1]);
                 }
             }
             else
             {
                 checkfirstconnectmoment = false;
+                foreach (LineRenderer lr in lineArray)
+                {
+                    lr.SetPosition(0, this.transform.position);
+                    lr.SetPosition(1, this.transform.position);
+                }
             }
         }
 
-        foreach (LineRenderer lr in lineArray)
-            Destroy(lr);
+        /*foreach (LineRenderer lr in lineArray)
+            Destroy(lr);*/
     }
 }
