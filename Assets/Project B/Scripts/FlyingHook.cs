@@ -132,7 +132,6 @@ public class FlyingHook : MonoBehaviour
             m_DetectedObject = null;
         }
     }
-    LineRenderer m_Cable;
     void UpdateCable()
     {
         LineRenderer[] lineArray = this.GetComponentsInChildren<LineRenderer>();
@@ -165,8 +164,5 @@ public class FlyingHook : MonoBehaviour
                 }
             }
         }
-
-        /*foreach (LineRenderer lr in lineArray)
-            Destroy(lr);*/
     }
 }

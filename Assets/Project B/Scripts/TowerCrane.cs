@@ -12,16 +12,27 @@ public class TowerCrane : MonoBehaviour
     float LONG_LLIMIT = 0f;
     const float LONG_HLIMIT = -17f;
 
+    LineRenderer lineRenderer;
+    GameObject connectObject;
+
     List<GameObject> gameObjects = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         LONG_LLIMIT = m_Trolley.transform.localPosition.y;
+        lineRenderer = m_Cable.GetComponent<LineRenderer>();
+        lineRenderer.SetPosition(0, m_Trolley.transform.position);
+        lineRenderer.SetPosition(1, m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody.transform.position);
+
+        connectObject = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
+        lineRenderer.SetPosition(0, m_Trolley.transform.position);
+        lineRenderer.SetPosition(1, connectObject.transform.position);
+        
         #region Key Control
         if (Input.GetKey(KeyCode.A))
         {
@@ -47,17 +58,23 @@ public class TowerCrane : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            var lineRenderer = m_Cable.GetComponent<LineRenderer>();
             var oldPos = lineRenderer.GetPosition(1);
-            lineRenderer.SetPosition(1, new Vector3(oldPos.x, oldPos.y, Mathf.Min(-1, oldPos.z += MOVE_SPEED / 2 * Time.deltaTime)));
-            m_Cable.transform.GetChild(0).transform.localPosition = new Vector3(oldPos.x, oldPos.y, Mathf.Min(-1, oldPos.z += MOVE_SPEED / 2 * Time.deltaTime));
+            if ((lineRenderer.GetPosition(1) - lineRenderer.GetPosition(0)).magnitude > 10f)
+            {
+                lineRenderer.SetPosition(1, oldPos - (MOVE_SPEED * Time.deltaTime) * (oldPos - lineRenderer.GetPosition(0)).normalized);
+            }
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            var lineRenderer = m_Cable.GetComponent<LineRenderer>();
-            var oldPos = lineRenderer.GetPosition(1);
-            lineRenderer.SetPosition(1, new Vector3(oldPos.x, oldPos.y, oldPos.z -= MOVE_SPEED / 2 * Time.deltaTime));
-            m_Cable.transform.GetChild(0).transform.localPosition = new Vector3(oldPos.x, oldPos.y, oldPos.z -= MOVE_SPEED / 2 * Time.deltaTime);
+            var oldPos = connectObject.transform.position;
+            m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody = null;
+            connectObject.GetComponent<Rigidbody>().useGravity = false;
+            connectObject.transform.position = oldPos - new Vector3(0, 0, (MOVE_SPEED * Time.deltaTime));
+        }
+        else if(Input.GetKeyUp(KeyCode.E))
+        {
+            connectObject.GetComponent<Rigidbody>().useGravity = true;
+            m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody = connectObject.GetComponent<Rigidbody>();
         }
         #endregion
     }
