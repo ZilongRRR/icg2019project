@@ -19,6 +19,7 @@ public class TowerCrane : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_Cable.SetActive(true);
         connectObject = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
 
         LONG_LLIMIT = m_Trolley.transform.localPosition.y;
@@ -60,13 +61,19 @@ public class TowerCrane : MonoBehaviour
         {
             var limit = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit;
             if (limit.limit > 3)
+            {
                 limit.limit -= MOVE_SPEED * Time.deltaTime;
+                m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit = limit;
+            }
         }
         else if (Input.GetKey(KeyCode.E))
         {
             var limit = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit;
-            if(limit.limit < 100)
+            if (limit.limit < 100)
+            {
                 limit.limit += MOVE_SPEED * Time.deltaTime;
+                m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit = limit;
+            }
         }
         #endregion
     }
