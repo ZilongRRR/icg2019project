@@ -19,12 +19,12 @@ public class TowerCrane : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        connectObject = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
+
         LONG_LLIMIT = m_Trolley.transform.localPosition.y;
         lineRenderer = m_Cable.GetComponent<LineRenderer>();
         lineRenderer.SetPosition(0, m_Trolley.transform.position);
-        lineRenderer.SetPosition(1, m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody.transform.position);
-
-        connectObject = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody.gameObject;
+        lineRenderer.SetPosition(1, connectObject.transform.position);
     }
 
     // Update is called once per frame
@@ -58,23 +58,15 @@ public class TowerCrane : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            var oldPos = lineRenderer.GetPosition(1);
-            if ((lineRenderer.GetPosition(1) - lineRenderer.GetPosition(0)).magnitude > 10f)
-            {
-                lineRenderer.SetPosition(1, oldPos - (MOVE_SPEED * Time.deltaTime) * (oldPos - lineRenderer.GetPosition(0)).normalized);
-            }
+            var limit = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit;
+            if (limit.limit > 3)
+                limit.limit -= MOVE_SPEED * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            var oldPos = connectObject.transform.position;
-            m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody = null;
-            connectObject.GetComponent<Rigidbody>().useGravity = false;
-            connectObject.transform.position = oldPos - new Vector3(0, 0, (MOVE_SPEED * Time.deltaTime));
-        }
-        else if(Input.GetKeyUp(KeyCode.E))
-        {
-            connectObject.GetComponent<Rigidbody>().useGravity = true;
-            m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.GetComponent<ConfigurableJoint>().connectedBody = connectObject.GetComponent<Rigidbody>();
+            var limit = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit;
+            if(limit.limit < 100)
+                limit.limit += MOVE_SPEED * Time.deltaTime;
         }
         #endregion
     }

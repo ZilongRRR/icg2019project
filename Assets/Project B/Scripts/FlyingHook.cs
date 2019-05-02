@@ -17,6 +17,7 @@ public class FlyingHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         #region Key Control
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -42,7 +43,7 @@ public class FlyingHook : MonoBehaviour
         {
             this.transform.Translate(0, -MOVE_SPEED * Time.deltaTime, 0);
         }
-        #endregion
+        #endregion*/
         DetectObjects();
         /*
         if (m_JointForObject.connectedBody == null)
