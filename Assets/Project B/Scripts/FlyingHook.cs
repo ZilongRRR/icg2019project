@@ -114,7 +114,7 @@ public class FlyingHook : MonoBehaviour
             }
             RecoverDetectedObject();
             MeshRenderer renderer = hit.collider.GetComponent<MeshRenderer>();
-            Debug.Log(renderer.gameObject.GetComponent<MeshFilter>().mesh.name);
+            //Debug.Log(renderer.gameObject.GetComponent<MeshFilter>().mesh.name);
             if (renderer != null && renderer.gameObject.GetComponent<MeshFilter>().mesh.name == "PlayingBaby Instance")
             {
                 renderer.material.color = Color.yellow;
