@@ -104,7 +104,7 @@ public class FlyingHook : MonoBehaviour
     }
     void DetectObjects()
     {
-        Ray ray = new Ray(this.transform.position, Vector3.down);
+        Ray ray = new Ray(this.transform.position - new Vector3(0, 0, 0.4f), Vector3.down);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, ATTACH_DISTANCE))
         {
@@ -114,6 +114,7 @@ public class FlyingHook : MonoBehaviour
             }
             RecoverDetectedObject();
             MeshRenderer renderer = hit.collider.GetComponent<MeshRenderer>();
+            Debug.Log(renderer.gameObject.GetComponent<MeshFilter>().mesh.name);
             if (renderer != null && renderer.gameObject.GetComponent<MeshFilter>().mesh.name == "PlayingBaby Instance")
             {
                 renderer.material.color = Color.yellow;

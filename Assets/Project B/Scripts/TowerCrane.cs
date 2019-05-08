@@ -79,6 +79,5 @@ public class TowerCrane : MonoBehaviour
             }
         }
         #endregion
-        Debug.Log(hookCollision.ToString());
     }
 }
