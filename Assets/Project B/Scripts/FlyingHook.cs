@@ -17,8 +17,9 @@ public class FlyingHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
+        
         #region Key Control
+        /*
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             this.transform.Translate(0, 0, MOVE_SPEED * Time.deltaTime);
@@ -43,7 +44,8 @@ public class FlyingHook : MonoBehaviour
         {
             this.transform.Translate(0, -MOVE_SPEED * Time.deltaTime, 0);
         }
-        #endregion*/
+        */
+        #endregion
         DetectObjects();
         /*
         if (m_JointForObject.connectedBody == null)
@@ -112,7 +114,7 @@ public class FlyingHook : MonoBehaviour
             }
             RecoverDetectedObject();
             MeshRenderer renderer = hit.collider.GetComponent<MeshRenderer>();
-            if (renderer != null)
+            if (renderer != null && renderer.gameObject.GetComponent<MeshFilter>().mesh.name == "PlayingBaby Instance")
             {
                 renderer.material.color = Color.yellow;
 
@@ -146,7 +148,6 @@ public class FlyingHook : MonoBehaviour
                 foreach(Transform tr in m_JointForObject.connectedBody.GetComponentsInChildren<Transform>())
                 {
                     vertices.Add(tr.position);
-                    Debug.Log(tr.position);
                 }
 
                 for (int i = 0; i < lineArray.Length; i++)
@@ -160,8 +161,7 @@ public class FlyingHook : MonoBehaviour
                 checkfirstconnectmoment = false;
                 foreach (LineRenderer lr in lineArray)
                 {
-                    lr.SetPosition(0, this.transform.position);
-                    lr.SetPosition(1, this.transform.position);
+                    Destroy(lr);
                 }
             }
         }

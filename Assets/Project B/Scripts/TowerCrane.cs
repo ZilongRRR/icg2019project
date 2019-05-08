@@ -7,6 +7,7 @@ public class TowerCrane : MonoBehaviour
     [SerializeField] GameObject m_Jib;
     [SerializeField] GameObject m_Trolley;
     [SerializeField] GameObject m_Cable;
+    [SerializeField] HookEntity hookEntity;
 
     const float MOVE_SPEED = 8f;
     float LONG_LLIMIT = 0f;
@@ -16,6 +17,7 @@ public class TowerCrane : MonoBehaviour
     GameObject connectObject;
 
     List<GameObject> gameObjects = new List<GameObject>();
+    bool hookCollision = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,7 @@ public class TowerCrane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        hookCollision = hookEntity.getCollision();
         lineRenderer.SetPosition(0, m_Trolley.transform.position);
         lineRenderer.SetPosition(1, connectObject.transform.position);
         
@@ -62,19 +65,20 @@ public class TowerCrane : MonoBehaviour
             var limit = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit;
             if (limit.limit > 3)
             {
-                limit.limit -= MOVE_SPEED * Time.deltaTime;
+                limit.limit -= MOVE_SPEED * Time.deltaTime / 2;
                 m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit = limit;
             }
         }
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.E) && !hookCollision)
         {
             var limit = m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit;
             if (limit.limit < 100)
             {
-                limit.limit += MOVE_SPEED * Time.deltaTime;
+                limit.limit += MOVE_SPEED * Time.deltaTime / 2;
                 m_Trolley.GetComponent<ConfigurableJoint>().connectedBody.gameObject.GetComponent<ConfigurableJoint>().linearLimit = limit;
             }
         }
         #endregion
+        Debug.Log(hookCollision.ToString());
     }
 }
