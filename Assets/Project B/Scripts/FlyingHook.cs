@@ -6,7 +6,7 @@ public class FlyingHook : MonoBehaviour
 {
     // Start is called before the first frame update
     const float MOVE_SPEED = 2f;
-    const float ATTACH_DISTANCE = 4f;
+    const float ATTACH_DISTANCE = 1f;
     bool checkfirstconnectmoment = false;
     GameObject m_DetectedObject;
     void Start()
@@ -63,7 +63,6 @@ public class FlyingHook : MonoBehaviour
     [SerializeField] GameObject m_JointBody;
     void AttachOrDetachObject()
     {
-
         if (m_JointForObject == null)
         {
 
@@ -77,9 +76,20 @@ public class FlyingHook : MonoBehaviour
                 joint.angularXMotion = ConfigurableJointMotion.Free;
                 joint.angularYMotion = ConfigurableJointMotion.Free;
                 joint.angularZMotion = ConfigurableJointMotion.Free;
+                var angXLimit = joint.highAngularXLimit;
+                angXLimit.limit = 5f;
+                joint.highAngularXLimit = angXLimit;
+
+                var angYLimit = joint.angularYLimit;
+                angYLimit.limit = 5f;
+                joint.angularYLimit = angYLimit;
+
+                var angZLimit = joint.angularZLimit;
+                angZLimit.limit = 5f;
+                joint.angularZLimit = angZLimit;
 
                 var limit = joint.linearLimit;
-                limit.limit = 4;
+                limit.limit = 1f;
 
                 joint.linearLimit = limit;
 
@@ -88,10 +98,11 @@ public class FlyingHook : MonoBehaviour
                 joint.anchor = new Vector3(0f, 0f, 0f);
 
                 joint.connectedBody = m_DetectedObject.GetComponent<Rigidbody>();
+                joint.connectedBody.velocity = Vector3.zero;
 
                 m_JointForObject = joint;
 
-                m_DetectedObject.GetComponent<MeshRenderer>().material.color = Color.red;
+                //m_DetectedObject.GetComponent<MeshRenderer>().material.color = Color.red;
                 m_DetectedObject = null;
             }
 
@@ -125,7 +136,6 @@ public class FlyingHook : MonoBehaviour
             {
                 RecoverDetectedObject();
             }
-
         }
     }
     void RecoverDetectedObject()
@@ -157,13 +167,15 @@ public class FlyingHook : MonoBehaviour
                     lineArray[i].SetPosition(1, vertices[i + 1]);
                 }
             }
-            else
+            
+        }
+        else
+        {
+            checkfirstconnectmoment = false;
+            foreach (LineRenderer lr in lineArray)
             {
-                checkfirstconnectmoment = false;
-                foreach (LineRenderer lr in lineArray)
-                {
-                    Destroy(lr);
-                }
+                lr.SetPosition(0, this.transform.position);
+                lr.SetPosition(1, this.transform.position);
             }
         }
     }

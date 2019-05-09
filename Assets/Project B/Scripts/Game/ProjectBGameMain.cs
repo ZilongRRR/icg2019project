@@ -70,4 +70,9 @@ public class ProjectBGameMain : Singleton<ProjectBGameMain> {
         float y = Random.Range (randomBedCenter.position.y - randomPositionRange, randomBedCenter.position.y + randomPositionRange);
         bed.position = new Vector3 (x, y, randomBedCenter.position.z);
     }
+
+    public void audioPlay()
+    {
+        this.gameObject.GetComponent<AudioSource>().Play();
+    }
 }
