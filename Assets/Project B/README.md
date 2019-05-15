@@ -1,5 +1,11 @@
 # Project B
 
+## Team member
+
+r07521606 劉鎧禎
+r06521605 許舜翔
+r06521609 趙君傑
+
 ## Behavior of The Tower Crane
 吊車的功能有旋轉rib、移動trolley、升降hook以及將東西吊起。
 ### 旋轉rib
