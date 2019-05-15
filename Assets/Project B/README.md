@@ -2,9 +2,9 @@
 
 ## Team members
 
-r07521606 劉鎧禎
-r06521605 許舜翔
-r06521609 趙君傑
+r07521606 劉鎧禎<br>
+r06521605 許舜翔<br>
+r06521609 趙君傑<br>
 
 ## Behavior of The Tower Crane
 吊車的功能有旋轉rib、移動trolley、升降hook以及將東西吊起。
@@ -159,6 +159,6 @@ private void BedRandomPosition () {
 
 ### Work Division
 
-Behavior of the tower crane: 劉鎧禎
-Scene and camera: 許舜翔
-Gamification: 趙君傑
+Behavior of the tower crane: 劉鎧禎<br>
+Scene and camera: 許舜翔<br>
+Gamification: 趙君傑<br>
