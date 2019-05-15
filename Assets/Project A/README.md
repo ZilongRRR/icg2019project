@@ -2,9 +2,9 @@
 
 ## Team members
 
-r07521606 劉鎧禎
-r06521605 許舜翔
-r06521609 趙君傑
+r07521606 劉鎧禎<br>
+r06521605 許舜翔<br>
+r06521609 趙君傑<br>
 
 ### Car
 
@@ -213,6 +213,6 @@ B. Mini map : help the player to know the entire level
 
 ### Work Division
 
-The behavior of the car entity: 劉鎧禎
-The Task and the collision check: 許舜翔
-The Map and the game UI: 趙君傑
+The behavior of the car entity: 劉鎧禎<br>
+The Task and the collision check: 許舜翔<br>
+The Map and the game UI: 趙君傑<br>
