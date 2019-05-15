@@ -8,11 +8,11 @@ r06521609 趙君傑
 
 ### Car
 
-Additional works:
+Additional works: 
 
-- the light and the sound of direction indicators
-  KeyCode: A, D
-  Description:
+- the light and the sound of direction indicators:    
+  KeyCode: A, D    
+  Description:     
   When the wheel angle reaches 40f, the light will be automatically turned off.
 
 ```
@@ -25,11 +25,11 @@ if (m_WheelFrontAngle >= 40f)
 }
 ```
 
-- manual transmission and engine sound
-  KeyCode: W, S
-  Description:
-  Keycode W means to upshift, and Keycode S means to downshift.
-  There are six grades for this car. Every grade represents different maximum velocity and different volume of engine sound which increases/decreases 4f as you upshift/downshift.
+- manual transmission and engine sound     
+  KeyCode: W, S     
+  Description:     
+  Keycode W means to upshift, and Keycode S means to downshift.     
+  There are six grades for this car. Every grade represents different maximum volume of engine sound and different maximum velocity which increases/decreases 4f as you upshift/downshift.
 
 ```
 if (Input.GetKeyDown (KeyCode.W))
@@ -47,7 +47,7 @@ if (Input.GetKeyDown (KeyCode.W))
 
 ![](https://i.imgur.com/qrmaMiT.png)
 
-- tachometer
+- tachometer     
   The rect transform of the pin will change depending the velocity.
 
 ```
@@ -64,9 +64,9 @@ if (Input.GetKey (KeyCode.UpArrow))
 
 ![](https://i.imgur.com/767IX5i.png)
 
-- wheel angle holding key
-  KeyCode: space
-  Description:
+- wheel angle holding key     
+  KeyCode: space     
+  Description:     
   When the keycode space is hold, the wheel angle will be unchangeable.
 
 ### Task
