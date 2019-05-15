@@ -1,6 +1,6 @@
 # ICG2019 ProjectA
 
-## Team member
+## Team members
 
 r07521606 劉鎧禎
 r06521605 許舜翔
